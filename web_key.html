@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> HBTOOL - Key Ngày Hôm Nay</title>
+    <script>
+        function updateTime() {
+            var now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+            var day = now.getDate();
+            var month = now.getMonth() + 1;
+            var year = now.getFullYear();
+
+            hours = (hours < 10 ? "0" : "") + hours;
+            minutes = (minutes < 10 ? "0" : "") + minutes;
+            seconds = (seconds < 10 ? "0" : "") + seconds;
+
+            var timeString = hours + ":" + minutes + ":" + seconds;
+            document.getElementById("clock").innerHTML = timeString;
+
+            var dateString = `${day}/${month}/${year}`;
+            document.getElementById("dateDisplay").innerHTML = dateString;
+
+            document.title = `HVHTOOL - Key ${day}/${month}/${year}`;
+
+            setTimeout(updateTime, 1000);
+        }
+
+        function getQueryParam() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const key = urlParams.get('ma');
+            const keyInput = document.getElementById('keyInput');
+            if (key) {
+                keyInput.value = key;
+            } else {
+                keyInput.value = 'No key found';
+            }
+        }
+
+        function copyToClipboard() {
+            const keyInput = document.getElementById('keyInput');
+            keyInput.select();
+            document.execCommand('copy');
+            
+            // Hiệu ứng thông báo copy
+            const notification = document.getElementById('copyNotification');
+            notification.style.opacity = '1';
+            notification.style.transform = 'translateY(0)';
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(-20px)';
+            }, 2000);
+        }
+
+        function toggleMusic() {
+            const music = document.getElementById('backgroundMusic');
+            const musicButton = document.getElementById('musicButton');
+            const musicIcon = document.getElementById('musicIcon');
+
+            if (music.paused) {
+                music.play();
+                musicButton.innerHTML = '<i id="musicIcon">⏸️</i> Pause Music';
+            } else {
+                music.pause();
+                musicButton.innerHTML = '<i id="musicIcon">🎵</i> Play Music';
+            }
+        }
+
+        // Tạo hiệu ứng particles
+        function createParticles() {
+            const particleContainer = document.querySelector('.particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                particleContainer.appendChild(particle);
+            }
+        }
+
+        window.onload = function () {
+            updateTime();
+            getQueryParam();
+            createParticles();
+        };
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4c1d95 0%, #312e81 25%, #1e1b4b 50%, #3730a3 75%, #581c87 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(99, 102, 241, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 60% 70%, rgba(196, 181, 253, 0.2) 0%, transparent 40%);
+            animation: backgroundShift 8s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: linear-gradient(45deg, #c4b5fd, #a78bfa, #8b5cf6);
+            border-radius: 50%;
+            animation: float infinite ease-in-out;
+            box-shadow: 
+                0 0 8px rgba(139, 92, 246, 0.8),
+                0 0 16px rgba(168, 85, 247, 0.4),
+                0 0 24px rgba(196, 181, 253, 0.2);
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+                opacity: 0.5;
+            }
+        }
+
+        .main-container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            width: 90vw;
+            max-width: 450px;
+        }
+
+        .avatar-top {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 52px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 
+                0 0 40px rgba(139, 92, 246, 0.6),
+                0 0 80px rgba(168, 85, 247, 0.4),
+                inset 0 0 30px rgba(255, 255, 255, 0.15),
+                0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: avatarGlow 4s ease-in-out infinite;
+            border: 2px solid rgba(196, 181, 253, 0.5);
+            position: relative;
+            overflow: hidden;
+            text-shadow: 
+                0 0 8px rgba(255, 255, 255, 0.9),
+                0 0 16px rgba(139, 92, 246, 0.7),
+                0 0 24px rgba(168, 85, 247, 0.5);
+            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.3);
+        }
+        .avatar-top img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;   /* <-- giữ nguyên toàn bộ ảnh, không cắt */
+            border-radius: 50%;
+            display: block;
+            background-color: black; /* màu nền nếu ảnh không phủ hết */
+        }
+        .avatar-top::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 2s linear infinite;
+        }
+
+        @keyframes avatarGlow {
+            0%, 100% {
+                box-shadow: 
+                    0 0 40px rgba(139, 92, 246, 0.6),
+                    0 0 80px rgba(168, 85, 247, 0.4),
+                    inset 0 0 30px rgba(255, 255, 255, 0.15),
+                    0 8px 32px rgba(0, 0, 0, 0.3);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 
+                    0 0 60px rgba(139, 92, 246, 0.8),
+                    0 0 120px rgba(168, 85, 247, 0.6),
+                    inset 0 0 40px rgba(255, 255, 255, 0.25),
+                    0 12px 48px rgba(0, 0, 0, 0.4);
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(45deg) translate(-200%, -200%); }
+            100% { transform: rotate(45deg) translate(200%, 200%); }
+        }
+
+        .loading-container {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(196, 181, 253, 0.3);
+            border-radius: 24px;
+            padding: 35px;
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                0 0 60px rgba(139, 92, 246, 0.1);
+            animation: containerFloat 8s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: containerShine 3s linear infinite;
+        }
+
+        @keyframes containerFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes containerShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        h1 {
+            background: linear-gradient(135deg, #c4b5fd, #a78bfa, #8b5cf6, #7c3aed);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 30px;
+            animation: gradientMove 4s ease-in-out infinite, textFloat 3s ease-in-out infinite;
+            letter-spacing: 3px;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+            text-shadow: 
+                0 0 10px rgba(139, 92, 246, 0.8),
+                0 0 20px rgba(168, 85, 247, 0.6),
+                0 0 30px rgba(192, 132, 252, 0.4);
+            -webkit-text-stroke: 1px rgba(139, 92, 246, 0.6);
+            position: relative;
+            z-index: 2;
+        }
+
+        h1::before {
+            content: '🔑 KEY HÔM NAY';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(168, 85, 247, 0.3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            -webkit-text-stroke: 2px rgba(196, 181, 253, 0.8);
+            animation: borderFlicker 2.5s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes textFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
+        }
+
+        @keyframes borderFlicker {
+            0%, 100% { opacity: 0.8; -webkit-text-stroke-width: 1px; }
+            25% { opacity: 1; -webkit-text-stroke-width: 2px; }
+            50% { opacity: 0.6; -webkit-text-stroke-width: 1.5px; }
+            75% { opacity: 1; -webkit-text-stroke-width: 2.5px; }
+        }
+
+        @keyframes gradientMove {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .key-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-shadow: 
+                0 0 5px rgba(255, 255, 255, 0.8),
+                0 0 10px rgba(139, 92, 246, 0.4);
+            -webkit-text-stroke: 0.3px rgba(196, 181, 253, 0.5);
+            animation: inputShimmer 4s ease-in-out infinite;
+        }
+
+        @keyframes inputShimmer {
+            0%, 100% {
+                text-shadow: 
+                    0 0 5px rgba(255, 255, 255, 0.8),
+                    0 0 10px rgba(139, 92, 246, 0.4);
+                border-color: rgba(196, 181, 253, 0.3);
+            }
+            50% {
+                text-shadow: 
+                    0 0 8px rgba(255, 255, 255, 1),
+                    0 0 16px rgba(139, 92, 246, 0.6),
+                    0 0 24px rgba(168, 85, 247, 0.4);
+                border-color: rgba(196, 181, 253, 0.6);
+            }
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(125, 211, 252, 0.5);
+            box-shadow: 
+                inset 0 2px 5px rgba(0, 0, 0, 0.1),
+                0 0 20px rgba(125, 211, 252, 0.3);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 700;
+            transition: all 0.4s ease;
+            box-shadow: 
+                0 6px 20px rgba(139, 92, 246, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(196, 181, 253, 0.3);
+            position: relative;
+            overflow: hidden;
+            min-width: 140px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 
+                0 0 5px rgba(255, 255, 255, 0.8),
+                0 0 10px rgba(139, 92, 246, 0.6);
+            -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.3);
+            animation: buttonGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes buttonGlow {
+            0% {
+                text-shadow: 
+                    0 0 5px rgba(255, 255, 255, 0.8),
+                    0 0 10px rgba(139, 92, 246, 0.6);
+                box-shadow: 
+                    0 6px 20px rgba(139, 92, 246, 0.4),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            }
+            100% {
+                text-shadow: 
+                    0 0 8px rgba(255, 255, 255, 1),
+                    0 0 16px rgba(139, 92, 246, 0.8),
+                    0 0 24px rgba(168, 85, 247, 0.6);
+                box-shadow: 
+                    0 8px 25px rgba(139, 92, 246, 0.6),
+                    inset 0 2px 0 rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 
+                0 8px 25px rgba(139, 92, 246, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, #7c3aed, #a855f7, #c084fc);
+        }
+
+        button:active {
+            transform: translateY(-1px) scale(0.98);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.5);
+        }
+
+        .date-time-container {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        #dateDisplay {
+            font-size: 22px;
+            color: #c4b5fd;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 
+                0 0 8px #8b5cf6,
+                0 0 16px #a855f7,
+                0 0 24px #c084fc;
+            -webkit-text-stroke: 1px rgba(139, 92, 246, 0.7);
+            animation: numberGlow 2.5s ease-in-out infinite alternate, numberFloat 4s ease-in-out infinite;
+            transform-style: preserve-3d;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        #clock {
+            font-size: 20px;
+            color: #a78bfa;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            text-shadow: 
+                0 0 8px #6366f1,
+                0 0 16px #8b5cf6,
+                0 0 24px #a855f7;
+            -webkit-text-stroke: 1px rgba(99, 102, 241, 0.7);
+            animation: clockPulse 1s ease-in-out infinite, numberFloat 3s ease-in-out infinite;
+            transform-style: preserve-3d;
+            filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4));
+        }
+
+        @keyframes numberGlow {
+            0% {
+                text-shadow: 
+                    0 0 8px #8b5cf6,
+                    0 0 16px #a855f7,
+                    0 0 24px #c084fc;
+                -webkit-text-stroke: 1px rgba(139, 92, 246, 0.7);
+                transform: translateZ(0px);
+            }
+            100% {
+                text-shadow: 
+                    0 0 12px #6366f1,
+                    0 0 24px #8b5cf6,
+                    0 0 36px #a855f7,
+                    0 0 48px #c084fc;
+                -webkit-text-stroke: 2px rgba(168, 85, 247, 1);
+                transform: translateZ(5px);
+            }
+        }
+
+        @keyframes clockPulse {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 8px #6366f1,
+                    0 0 16px #8b5cf6,
+                    0 0 24px #a855f7;
+                transform: scale(1) translateZ(0px);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 12px #4f46e5,
+                    0 0 24px #7c3aed,
+                    0 0 36px #8b5cf6,
+                    0 0 48px #a855f7;
+                transform: scale(1.05) translateZ(8px);
+            }
+        }
+
+        @keyframes numberFloat {
+            0%, 100% { transform: translateY(0px) rotateX(0deg); }
+            33% { transform: translateY(-2px) rotateX(2deg); }
+            66% { transform: translateY(-1px) rotateX(-1deg); }
+        }
+
+        .footer {
+            margin-top: 25px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .admin-link {
+            color: #c4b5fd;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            text-shadow: 
+                0 0 5px #8b5cf6,
+                0 0 10px #a855f7;
+            -webkit-text-stroke: 0.5px rgba(139, 92, 246, 0.6);
+            animation: linkShimmer 3s ease-in-out infinite;
+        }
+
+        .admin-link:hover {
+            color: #a78bfa;
+            text-shadow: 
+                0 0 8px #6366f1,
+                0 0 16px #8b5cf6,
+                0 0 24px #a855f7,
+                0 0 32px #c084fc;
+            -webkit-text-stroke: 1px rgba(168, 85, 247, 0.8);
+            transform: translateY(-1px);
+        }
+
+        @keyframes linkShimmer {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 5px #8b5cf6,
+                    0 0 10px #a855f7;
+            }
+            50% { 
+                text-shadow: 
+                    0 0 8px #7c3aed,
+                    0 0 16px #8b5cf6,
+                    0 0 24px #a855f7;
+            }
+        }
+
+        .hvhtool-brand {
+            font-size: 28px;
+            font-weight: 900;
+            color: #c4b5fd;
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+            text-shadow: 
+                0 0 5px #8b5cf6,
+                0 0 10px #a855f7,
+                0 0 15px #c084fc,
+                0 0 20px #ddd6fe;
+            -webkit-text-stroke: 1px rgba(139, 92, 246, 0.8);
+            animation: textGlow 2s ease-in-out infinite alternate, borderPulse 3s linear infinite;
+            position: relative;
+        }
+
+        @keyframes textGlow {
+            0% {
+                text-shadow: 
+                    0 0 5px #8b5cf6,
+                    0 0 10px #a855f7,
+                    0 0 15px #c084fc,
+                    0 0 20px #ddd6fe;
+                -webkit-text-stroke: 1px rgba(139, 92, 246, 0.8);
+            }
+            100% {
+                text-shadow: 
+                    0 0 10px #6366f1,
+                    0 0 20px #8b5cf6,
+                    0 0 30px #a855f7,
+                    0 0 40px #c084fc;
+                -webkit-text-stroke: 2px rgba(168, 85, 247, 1);
+            }
+        }
+
+        @keyframes borderPulse {
+            0%, 100% { -webkit-text-stroke-color: rgba(139, 92, 246, 0.8); }
+            25% { -webkit-text-stroke-color: rgba(168, 85, 247, 1); }
+            50% { -webkit-text-stroke-color: rgba(192, 132, 252, 1); }
+            75% { -webkit-text-stroke-color: rgba(221, 214, 254, 1); }
+        }
+
+        .copy-notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: linear-gradient(135deg, #8b5cf6, #a855f7, #c084fc);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: 700;
+            box-shadow: 
+                0 6px 25px rgba(139, 92, 246, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 1000;
+            border: 1px solid rgba(196, 181, 253, 0.3);
+        }
+
+        /* Responsive design */
+        @media (max-width: 480px) {
+            .main-container {
+                width: 95vw;
+            }
+            
+            .loading-container {
+                padding: 20px;
+            }
+            
+            .avatar-top {
+                width: 100px;
+                height: 100px;
+                font-size: 36px;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            button {
+                width: 100%;
+                max-width: 200px;
+            }
+        @keyframes sparkleText {
+            0% {
+                text-shadow: 
+                    0 0 8px #8b5cf6,
+                    0 0 16px #a855f7;
+                -webkit-text-stroke: 0.5px rgba(139, 92, 246, 0.6);
+            }
+            100% {
+                text-shadow: 
+                    0 0 12px #6366f1,
+                    0 0 24px #8b5cf6,
+                    0 0 32px #a855f7,
+                    0 0 40px #c084fc;
+                -webkit-text-stroke: 1px rgba(168, 85, 247, 0.8);
+            }
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="particles"></div>
+    
+    <audio id="backgroundMusic" loop>
+        <source src="https://rr4---sn-npoeens7.googlevideo.com/videoplayback?expire=1738570417&ei=USagZ4Vk6_nE3w-x7KCJBg&ip=172.64.236.154&id=o-AAimGCMhLlnkFgQqbULLm4c5rLQiwpJXAB9aLLiMq4KH&itag=140&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&bui=AY2Et-NhXWJuEA_aAiv4s4CMjS0GNJ5kVy9qweCNCESmMcFo7gwC7u2n02jFCTAEYi17h2MNMEdZl1cQ&spc=9kzgDe0cTB4wLXbrqCENjNXF39FeMaXArlp1tUthP0Mj7BFN6PRwObzbGw&vprv=1&svpuc=1&mime=audio%2Fmp4&ns=ciOnzHLpGKSoPvsrdclhYhoQ&rqh=1&gir=yes&clen=12915678&dur=798.000&lmt=1726163663589433&keepalive=yes&lmw=1&fexp=24350590,24350737,24350827,24350933,24350961,24350977,24350999,24351028,24351059,24351082,51326932,51371294&c=TVHTML5&sefc=1&txp=5432434&n=oOVy0aSPT2m58w&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Cns%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AJfQdSswRAIgdqeR7ocPNLzfZ8ZpZkVJl9uhPiHnTmW-oIiDy0YosScCIGMbR3y4GUPaOW9VkEYfsnYGZDMJ1_1ub20amE3pVmcd&title=Cari+Pokemon+-+Mit+x+AM+Remix+%E2%9C%AA+Mochi+Entertainment+%7C%7C+Nh%E1%BA%A1c+Hot+Tiktok+Hay+Nh%E1%BA%A5t+2023%23mochi&rm=sn-h5q6l7l&rrc=104,80&req_id=442fafdb2aeca3ee&ipbypass=yes&redirect_counter=2&cm2rm=sn-8qj-2m0e7s&cms_redirect=yes&cmsv=e&met=1738548821,&mh=0l&mip=2001:ee0:4e1d:40f0:9918:bf84:9f64:6e22&mm=29&mn=sn-npoeens7&ms=rdu&mt=1738548536&mv=m&mvi=4&pl=48&rms=rdu,au&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=AGluJ3MwRgIhAPO94cqTh07m1khvJ4OP-lmnxEMqYdMS4DdevPGj-IEbAiEAmoIOxCicTNa-4Z5bebL0gq_d-TwAiwySZjFQUB5sSu8%3D" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="copy-notification" id="copyNotification">
+        ✨ Key đã được copy thành công!
+    </div>
+
+    <div class="main-container">
+        <div class="avatar-top">
+            <img src="anime-conan.jpg" alt="lỗi r cu">
+        </div>
+        
+        <div class="loading-container">
+            <div class="hvhtool-brand">HBTOOL</div>
+            <h1>🔑 KEY HÔM NAY</h1>
+            
+            <div class="key-container">
+                <input type="text" id="keyInput" placeholder="Key will appear here..." readonly>
+                
+                <div class="button-group">
+                    <button onclick="copyToClipboard()">
+                        📋 Copy Key
+                    </button>
+                    <button id="musicButton" onclick="toggleMusic()">
+                        🎵 Play Music
+                    </button>
+                </div>
+            </div>
+            
+            <div class="date-time-container">
+                <div id="dateDisplay"></div>
+                <div>⏰ <span id="clock"></span></div>
+            </div>
+            
+            <div class="footer">
+                <b>Copyright By 
+                    <a href="https://www.facebook.com/habui4869" class="admin-link">Ha Bùi</a>
+                </b>
+                <br>
+                <span style="color: #e9b5fd; text-shadow: 0 0 8px #8b5cf6, 0 0 16px #a855f7; -webkit-text-stroke: 0.5px rgba(139, 92, 246, 0.6); animation: sparkleText 2s ease-in-out infinite alternate;">✨ Powered by HBTOOL ✨</span>
+
+            </div>
+        </div>
+        
+
+    </div>
+</body>
+</html>
